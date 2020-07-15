@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MineLine {
-    public static final int MINELINE_LENGTH = 10; //todo: MineLine를 생성하는 전략에서 쓰인다?
+    public static final int MINELINE_LENGTH = 10;
     private static final String MINELINE_LENGTH_MESSAGE = "지뢰판의 가로길이는 10이어야 합니다.";
 
     private final List<Square> squares;
