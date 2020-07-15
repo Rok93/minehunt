@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MineLines {
-    public static final int MINELINES_LENGTH = 10;
+    private static final int MINELINES_LENGTH = 10;
     private static final String MINELINES_LENGTH_MESSAGE = "지뢰판의 세로길이는 10이어야 합니다.";
-    public static final int MINE_NUMBER_LIMIT = 10;
+    private static final int MINE_NUMBER_LIMIT = 10;
 
     private final List<MineLine> mineLines;
 
