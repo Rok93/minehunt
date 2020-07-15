@@ -5,7 +5,7 @@ import java.util.List;
 
 public class MineLines {
     private static final int MINELINES_LENGTH = 10;
-    private static final String MINELINES_LENGTH_MESSAGE = "지뢰판의 세로길이는 10이어야 합니다.";
+    private static final String MINELINES_LENGTH_OVER_MESSAGE = "지뢰의 개수는 10개보다 작아야합니다. ";
     private static final int MINE_NUMBER_LIMIT = 10;
 
     private final List<MineLine> mineLines;
@@ -20,8 +20,8 @@ public class MineLines {
     }
 
     private void validateMineLines(List<MineLine> mineLines) {
-        if (countMineNumber(mineLines) != MINE_NUMBER_LIMIT) {
-            throw new IllegalArgumentException(MINELINES_LENGTH_MESSAGE);
+        if (countMineNumber(mineLines) > MINE_NUMBER_LIMIT) {
+            throw new IllegalArgumentException(MINELINES_LENGTH_OVER_MESSAGE);
         }
     }
 
@@ -33,7 +33,7 @@ public class MineLines {
                 .count();
     }
 
-    public ArrayList<MineLine> getMineLines() {
+    public List<MineLine> getMineLines() {
         return new ArrayList<>(mineLines);
     }
 }
