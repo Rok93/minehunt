@@ -30,7 +30,7 @@ class MineLineTest {
 
     @DisplayName("지뢰판 한줄의 길이가 정해진 가로 길이보다 작으면 예외를 발생시킨다 ")
     @Test
-    void testIfMineLineLengthLowerThenMineBoardWidthLength() {
+    void testIfMineLineLengthLessThenMineBoardWidthLength() {
         //given
         List<Square> squares = Arrays.asList(false, false, false, false, false,
                 false, false, false, false).stream()
