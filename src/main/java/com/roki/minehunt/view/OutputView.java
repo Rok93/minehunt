@@ -4,53 +4,41 @@ import com.roki.minehunt.domain.MineBoard;
 import com.roki.minehunt.domain.MineLine;
 import com.roki.minehunt.domain.Square;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class OutputView {
-    private static final String MINE = " ";
+    private static final String MINEHUNT_GAME_INFO_MESSAGE = "---- 지뢰찾기 게임 ----";
     private static final String BLANK = " ";
 
     public static void printMineBoard(MineBoard mineBoard) {
-        List<List<Square>> squaresGroup = mineBoard.getMineLines().stream()
-                .map(MineLine::getSquares)
-                .collect(Collectors.toList());
+        System.out.println(MINEHUNT_GAME_INFO_MESSAGE);
 
-        int squaresGroupSize = squaresGroup.size();
-        for (int i = 0; i < squaresGroupSize; i++) {
-            List<Square> squares = squaresGroup.get(i);
-            int squaresSize = squares.size();
-            printSquare(squaresGroup, i, squares, squaresSize);
-            System.out.println();
-        }
+        translateMineBoard(mineBoard).stream()
+                .forEach(System.out::println);
     }
 
-    private static void printSquare(List<List<Square>> squaresGroup, int i, List<Square> squares, int squaresSize) {
-        for (int j = 0; j < squaresSize; j++) {
-            if (squares.get(j).isHasMine()) {
-                System.out.print(MINE);
-                System.out.print(BLANK);
-                continue;
-            }
-            printSurroundingMineNumber(i, j, squaresGroup);
+    private static List<String> translateMineBoard(MineBoard mineBoard) {
+        List<String> translatedMineLine = new ArrayList<>();
+
+        List<MineLine> mineLines = mineBoard.getMineLines();
+        int mineLinesSize = mineLines.size();
+        for (int i = 0; i < mineLinesSize; i++) {
+            translatedMineLine.add(translateSquares(mineBoard, i));
         }
+        return translatedMineLine;
     }
 
-    private static void printSurroundingMineNumber(int x, int y, List<List<Square>> squaresGroup) {
-        int startX = (x == 0) ? x : x - 1;
-        int endX = (x == squaresGroup.size() - 1) ? x : x + 1;
-        int startY = (y == 0) ? y : y - 1;
-        int endY = (y == squaresGroup.size() - 1) ? y : y + 1;
+    private static String translateSquares(MineBoard mineBoard, int i) {
+        List<String> translatedSquares = new ArrayList<>();
 
-        int cnt = 0;
-        for (int i = startX; i <= endX; i++) {
-            for (int j = startY; j <= endY; j++) {
-                if (squaresGroup.get(i).get(j).isHasMine()) {
-                    cnt++;
-                }
-            }
+        List<Square> mineLines = mineBoard.getMineLines().get(i).getSquares();
+        int mineLinesSize = mineLines.size();
+        for (int j = 0; j < mineLinesSize; j++) {
+            translatedSquares.add(mineBoard.translateSquare(i, j));
         }
-        System.out.print(cnt);
-        System.out.print(BLANK);
+        return translatedSquares.stream()
+                .collect(Collectors.joining(BLANK));
     }
 }
