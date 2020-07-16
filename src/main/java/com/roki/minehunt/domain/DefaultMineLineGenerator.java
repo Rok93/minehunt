@@ -1,30 +1,28 @@
 package com.roki.minehunt.domain;
 
-import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
-import java.util.Random;
+import java.util.stream.Collectors;
 
 public class DefaultMineLineGenerator implements MineLineGenerator {
-    private static final int MINEBOARD_WIDTH_LENGTH = 10;
-    private static final int MINE_LIMIT_NUMBER = 10;
-    private static final boolean NOT_MINE = false;
+    private static final List<Boolean> BOOLEANS;
 
-    private int mineNumber = 0;
+    static {
+        BOOLEANS = Arrays.asList(true, false, false, false, false,
+                false, false, false, false, false);
+    }
 
     @Override
     public MineLine generate() {
-        List<Square> squares = new ArrayList<>();
-        for (int i = 0; i < MINEBOARD_WIDTH_LENGTH; i++) {
-            boolean hasMine = mineNumber < MINE_LIMIT_NUMBER ? new Random().nextBoolean() : NOT_MINE;
-            countMine(hasMine);
-            squares.add(new Square(hasMine));
-        }
+        List<Square> squares = generateSquares();
         return new MineLine(squares);
     }
 
-    private void countMine(boolean hasMine) {
-        if (hasMine) {
-            mineNumber++;
-        }
+    private List<Square> generateSquares() {
+        Collections.shuffle(BOOLEANS);
+        return BOOLEANS.stream()
+                .map(Square::new)
+                .collect(Collectors.toList());
     }
 }
